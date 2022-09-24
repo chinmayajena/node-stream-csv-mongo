@@ -33,7 +33,10 @@ module.exports.uploadCSV = function (req, res, next) {
             myArr.push(row);
           })
           .on("end", function () {
-            fs.writeFile("myjsonfile.json", myArr, "utf8");
+            fs.writeFile("myjsonfile.json", JSON.stringify(myArr), (err) => {
+              if (err) throw err;
+              console.log("error at end", err);
+            });
           });
       }
     });
