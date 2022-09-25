@@ -1,5 +1,6 @@
 var express = require("express");
 var router = express.Router();
+const multer = require("multer");
 
 const upload_controller = require("../controllers/upload");
 
@@ -9,7 +10,7 @@ router.get("/", function (req, res, next) {
   res.write(
     '<form action="upload" method="post" enctype="multipart/form-data">'
   );
-  res.write('<input type="file" name="filetoupload" /> <br/>');
+  res.write('<input type="file" name="fileToUpload" /> <br/>');
   res.write('<input type="submit"/>');
   res.write("</form>");
   return res.end();
