@@ -4,6 +4,9 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
+const { MongoClient } = require("mongodb");
+const config = require("./db/config");
+
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var uploadRouter = require("./routes/upload");
@@ -22,6 +25,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/upload", uploadRouter);
+
+MongoClient.connect(config.database.url, { promiseLibrary: Promise })
+  .catch((err) => console.error(err.stack))
+  .then((db) => {
+    app.locals.db = db;
+    console.log("Mongo connected!");
+  });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
